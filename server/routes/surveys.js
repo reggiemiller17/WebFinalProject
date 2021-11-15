@@ -34,11 +34,16 @@ router.get('/add', (req, res, next) => {
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
   let newbook = book({
-    "question": req.body.question,
-    "option1": req.body.option1,  
-    "option2": req.body.option2,
-    "option3": req.body.option3,
-    "option4": req.body.option4
+    _id: req.body.id,
+    question: req.body.question,
+    option1: req.body.option1,
+    option2: req.body.option2,
+    option3: req.body.option3,
+    option4: req.body.option4,
+    vote1: req.body.vote1,
+    vote2: req.body.vote2,
+    vote3: req.body.vote3,
+    vote4: req.body.vote4
   });
   book.create(newbook,(err,book)=>{
     if(err){
@@ -73,12 +78,16 @@ router.post('/:id', (req, res, next) => {
   let id = req.params.id;
 
   let updatedbook = book ({
-    "_id":id,
-    "question": req.body.question,
-    "option1": req.body.option1,
-    "option2": req.body.option2,
-    "option3": req.body.option3,
-    "option4": req.body.option4
+    _id:id,
+    question: req.body.question,
+    option1: req.body.option1,
+    option2: req.body.option2,
+    option3: req.body.option3,
+    option4: req.body.option4,
+    vote1: req.body.vote1,
+    vote2: req.body.vote2,
+    vote3: req.body.vote3,
+    vote4: req.body.vote4
   })
   book.updateOne({_id:req.params.id},updatedbook,(err) =>{
     if(err){
@@ -106,6 +115,52 @@ router.get('/delete/:id', (req, res, next) => {
     }
   })
   
+});
+
+
+
+// // GET the Book Details page in order to edit an existing Book
+// router.get('/submit/:id', (req, res, next) => {
+//   let id = req.params.id;
+//   book.findById(id, (err, bookToEdit) => {
+//     if(err)
+//     {
+//         console.log(err);
+//         res.end(err);
+//     }
+//   });
+// });
+// POST - process the information passed from the details form and update the document
+router.post('/submit/:id', (req, res, next) => {
+  let id = req.params.id;
+  let vote = req.body.Communication;
+
+  book.findById(id, (err, doc) => {
+    if(err)
+    {
+        console.log(err);
+        res.end(err);
+    }
+    else
+    {
+      
+      voteCount = doc[vote];
+      updatedDoc = {};
+      updatedDoc[vote] = voteCount + 1;
+
+      book.updateOne({_id:doc._id},updatedDoc,(err) =>{
+        if(err){
+          console.log(err)
+          res.end(err)
+        }
+        else{
+          res.redirect('/surveys')
+        }
+      })
+
+    }
+  });
+    
 });
 
 

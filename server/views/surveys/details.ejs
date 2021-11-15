@@ -7,29 +7,53 @@
           <h1><%= title %></h1>
             <form class="form" method="post">
               <div class="form-group">
-                <label for="NameTextField">Question</label>
-                <input type="text" class="form-control" id="NameTextField"
+                <label for="QuestionTextField">Question</label>
+                <input type="text" class="form-control" id="QuestionTextField"
                 placeholder="Question" name="question" value="<%= surveys.question %>" required>
               </div>
               <div class="form-group">
-                <label for="PriceTextField">Option 1</label>
+                <label for="Option1TextField">Option 1</label>
                 <input type="text" class="form-control" id="Option1TextField"
                 placeholder="Option 1" name="option1" value="<%= surveys.option1 %>"  required>
               </div>
               <div class="form-group">
-                <label for="AuthorTextField">Option 2</label>
+                <label for="Option2TextField">Option 2</label>
                 <input type="text" class="form-control" id="Option2TextField"
                 placeholder="Option 2" name="option2" value="<%= surveys.option2 %>"  required>
               </div>
               <div class="form-group">
-                <label for="GenreTextField">Option 3</label>
+                <label for="Option3TextField">Option 3</label>
                 <input type="text" class="form-control" id="Option3TextField"
                 placeholder="Option 3" name="option3" value="<%= surveys.option3 %>"  required>
               </div>
               <div class="form-group">
-                <label for="ReviewTextField">Option 4</label>
+                <label for="Option4TextField">Option 4</label>
                 <input type="text" class="form-control" id="Option4TextField"
                 placeholder="Option 4" name="option4" value="<%= surveys.option4 %>"  required>
+              </div>
+
+              <div class="form-group">
+                <label for="Vote1TextField">Vote 1</label>
+                <input type="number" class="form-control" id="Vote1TextField"
+                placeholder="" name="vote1" value="<%= surveys.Vote1 %>"  >
+              </div>
+
+              <div class="form-group">
+                <label for="Vote2TextField">Vote 2</label>
+                <input type="number" class="form-control" id="Vote2TextField"
+                placeholder="" name="vote2" value="<%= surveys.Vote2 %>"  >
+              </div>
+
+              <div class="form-group">
+                <label for="Vote3TextField">Vote 3</label>
+                <input type="number" class="form-control" id="Vote3TextField"
+                placeholder="" name="vote3" value="<%= surveys.Vote3 %>"  >
+              </div>
+
+              <div class="form-group">
+                <label for="Vote4TextField">Vote 4</label>
+                <input type="number" class="form-control" id="Vote4TextField"
+                placeholder="" name="vote4" value="<%= surveys.Vote4 %>"  >
               </div>
               
 
