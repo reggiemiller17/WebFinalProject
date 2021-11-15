@@ -1,0 +1,78 @@
+<%- include('../partials/header.ejs'); %>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+          <h3> Survey  </h3>
+          <a href="surveys/add" class="btn btn-primary"><i class="fa fa-plus"></i> Create a Survey</a>
+          <br>
+          <br>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Questions</th>
+                  <th class="text-center" colspan="4">Options</th>
+                  <!-- <th class="text-center" colspan="4">Votes</th> -->
+                  <th class="text-center">Submit</th>
+                  <th class="text-center">Edit</th>
+                  <th class="text-center">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Template Row -->
+             
+                <% for (let count = 0; count < surveys.length; count++) { %>
+                  <form>
+                <tr>
+                  <td><%= surveys[count].question %>
+                  </td>
+                  <td class="text-center"><%= surveys[count].option1 %>
+                  <br><%= surveys[count].vote1 %>
+                  <br><input type="radio" name="Communication" value"Fall" for"myform"></td>
+                  <td class="text-center"><%= surveys[count].option2 %>
+                  <br><%= surveys[count].vote2 %>
+                  <br><input type="radio" name="Communication" value"Fall" for"myform"></td>
+                  <td class="text-center"><%= surveys[count].option3 %>
+                  <br><%= surveys[count].vote3 %>
+                  <br><input type="radio" name="Communication" value"Fall" for"myform"></td>
+                  <td class="text-center"><%= surveys[count].option4 %>
+                  <br><%= surveys[count].vote4 %>
+                  <br><input type="radio" name="Communication" value"Fall" for"myform"></td>
+                </form>
+                  <!-- <td class="text-center"><%= surveys[count].vote1 %></td>
+                  <td class="text-center"><%= surveys[count].vote2 %></td>
+                  <td class="text-center"><%= surveys[count].vote3 %></td>
+                  <td class="text-center"><%= surveys[count].vote4 %></td> -->
+                  <td class="text-center">
+                    <a href="/surveys/submit/<%= surveys[count]._id %>" class="btn btn-success btn-sm">
+                      <i class="fas fa-pencil-alt"></i> Submit</a>
+                  </td>
+
+
+                  <td class="text-center">
+                    <a href="/surveys/<%= surveys[count]._id %>" class="btn btn-primary btn-sm">
+                      <i class="fas fa-pencil-alt"></i> Edit</a>
+                  </td>
+
+
+                  <td class="text-center">
+                    <a href="/surveys/delete/<%= surveys[count]._id %>" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash-alt"></i> Delete</a>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+           <div class="col-md-offset-1 col-md-10 text-center">
+            <ul class="pagination pagination-lg pager" id="myPager"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<%- include('../partials/footer.ejs'); %>
+
+

@@ -1,0 +1,43 @@
+<%- include('../partials/header.ejs'); %>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+          <h1><%= title %></h1>
+            <form class="form" method="post">
+              <div class="form-group">
+                <label for="NameTextField">Question</label>
+                <input type="text" class="form-control" id="NameTextField"
+                placeholder="Question" name="question" value="<%= surveys.question %>" required>
+              </div>
+              <div class="form-group">
+                <label for="PriceTextField">Option 1</label>
+                <input type="text" class="form-control" id="Option1TextField"
+                placeholder="Option 1" name="option1" value="<%= surveys.option1 %>"  required>
+              </div>
+              <div class="form-group">
+                <label for="AuthorTextField">Option 2</label>
+                <input type="text" class="form-control" id="Option2TextField"
+                placeholder="Option 2" name="option2" value="<%= surveys.option2 %>"  required>
+              </div>
+              <div class="form-group">
+                <label for="GenreTextField">Option 3</label>
+                <input type="text" class="form-control" id="Option3TextField"
+                placeholder="Option 3" name="option3" value="<%= surveys.option3 %>"  required>
+              </div>
+              <div class="form-group">
+                <label for="ReviewTextField">Option 4</label>
+                <input type="text" class="form-control" id="Option4TextField"
+                placeholder="Option 4" name="option4" value="<%= surveys.option4 %>"  required>
+              </div>
+              
+
+              <button type="submit" class="btn btn-primary"><i class="fa fa-check-square-o"></i> Submit</button>
+              <a href="/surveys" class="btn btn-warning"><i class="fa fa-undo"></i> Cancel</a>
+            </form>
+        </div>
+      </div>
+    </div>
+
+<%- include('../partials/footer.ejs'); %>
