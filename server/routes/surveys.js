@@ -1,167 +1,42 @@
-// modules required for routing
-let express = require('express');
+
+let express = require("express");
 let router = express.Router();
-let mongoose = require('mongoose');
+let mongoose = require("mongoose");
 
-// define the book model
-let book = require('../models/surveys');
+let passport = require('passport');
 
-/* GET books List page. READ */
-router.get('/', (req, res, next) => {
-  // find all books in the books collection
-  book.find( (err, surveys) => {
-    if (err) {
-      return console.error(err);
-    }
-    else {
-      res.render('surveys/index', {
-        title: 'surveys',
-        surveys: surveys
-      });
-    }
-  });
+let bookController = require('../controllers/survey');
 
-});
-
-//  GET the Book Details page in order to add a new Book
-router.get('/add', (req, res, next) => {
-
-   
-  res.render("surveys/details.ejs", {title:"Add Survey",surveys:{}})
-
-});
-
-// POST process the Book Details page and create a new Book - CREATE
-router.post('/add', (req, res, next) => {
-  let newbook = book({
-    _id: req.body.id,
-    question: req.body.question,
-    option1: req.body.option1,
-    option2: req.body.option2,
-    option3: req.body.option3,
-    option4: req.body.option4,
-    vote1: req.body.vote1,
-    vote2: req.body.vote2,
-    vote3: req.body.vote3,
-    vote4: req.body.vote4
-  });
-  book.create(newbook,(err,book)=>{
-    if(err){
-      console.log(err)
-      res.end(err)
-    }
-    else{
-      res.redirect("/surveys")
-    }
-  })
-    
-});
-
-// GET the Book Details page in order to edit an existing Book
-router.get('/:id', (req, res, next) => {
-  let id = req.params.id;
-  book.findById(id, (err, bookToEdit) => {
-    if(err)
+// helper function for guard purposes 
+function requireAuth(req, res, next)
+{
+    // check if user is logged in
+    if(!req.isAuthenticated())
     {
-        console.log(err);
-        res.end(err);
+        return res.redirect('/login');
     }
-    else
-    {
-        //show the edit view
-        res.render('surveys/details', {title: 'Edit Book', surveys: bookToEdit})
-    }
-  });
-});
-// POST - process the information passed from the details form and update the document
-router.post('/:id', (req, res, next) => {
-  let id = req.params.id;
+    next();
+}
 
-  let updatedbook = book ({
-    _id:id,
-    question: req.body.question,
-    option1: req.body.option1,
-    option2: req.body.option2,
-    option3: req.body.option3,
-    option4: req.body.option4,
-    vote1: req.body.vote1,
-    vote2: req.body.vote2,
-    vote3: req.body.vote3,
-    vote4: req.body.vote4
-  })
-  book.updateOne({_id:req.params.id},updatedbook,(err) =>{
-    if(err){
-      console.log(err)
-      res.end(err)
-    }
-    else{
-      res.redirect('/surveys')
-    }
-  })
-    
-});
+/* GET Route for the Book List page - READ Operation */
+router.get("/", bookController.displayBookList);
 
-// GET - process the delete by user id
-router.get('/delete/:id', (req, res, next) => {
-  let id = req.params.id
+/* GET Route for displaying Add page - CREATE Operation */
+router.get("/add", requireAuth, bookController.displayAddPage);
 
-  book.remove({_id:id}, (err)=>{
-    if(err){
-      console.log(err)
-      res.end(err)
-    }
-    else{
-      res.redirect('/surveys')
-    }
-  })
-  
-});
+/* POST Route for processing Add page - CREATE Operation */
+router.post("/add", requireAuth, bookController.processAddPage);
 
+/* GET Route for displaying EDIT page - UPDATE Operation */
+router.get("/:id", requireAuth, bookController.displayEditPage);
 
+/* POST Route for processing EDIT page - UPDATE Operation */
+router.post("/:id", requireAuth, bookController.processEditPage);
 
-// // GET the Book Details page in order to edit an existing Book
-// router.get('/submit/:id', (req, res, next) => {
-//   let id = req.params.id;
-//   book.findById(id, (err, bookToEdit) => {
-//     if(err)
-//     {
-//         console.log(err);
-//         res.end(err);
-//     }
-//   });
-// });
-// POST - process the information passed from the details form and update the document
-router.post('/submit/:id', (req, res, next) => {
-  let id = req.params.id;
-  let vote = req.body.Communication;
+/* GET Route to perform Deletion - DELETE Operation */
+router.get("/delete/:id", requireAuth, bookController.performDelete);
 
-  book.findById(id, (err, doc) => {
-    if(err)
-    {
-        console.log(err);
-        res.end(err);
-    }
-    else
-    {
-      
-      voteCount = doc[vote];
-      updatedDoc = {};
-      updatedDoc[vote] = voteCount + 1;
-
-      book.updateOne({_id:doc._id},updatedDoc,(err) =>{
-        if(err){
-          console.log(err)
-          res.end(err)
-        }
-        else{
-          res.redirect('/surveys')
-        }
-      })
-
-    }
-  });
-    
-});
-
+/* GET Route to perform Counting - COUNTING Operation */
+router.post("/submit/:id", requireAuth, bookController.performCount);
 
 module.exports = router;

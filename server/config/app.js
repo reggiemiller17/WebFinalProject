@@ -5,6 +5,14 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
+// modules for authentication
+let session = require('express-session');
+let passport = require('passport');
+let passportLocal = require('passport-local');
+let localStrategy = passportLocal.Strategy;
+let flash = require('connect-flash');
+
+
 // import "mongoose" - required for DB Access
 let mongoose = require('mongoose');
 // URI
@@ -20,8 +28,9 @@ mongoDB.once('open', ()=> {
 
 
 // define routers
-let index = require('../routes/index'); // top level routes
-let surveys = require('../routes/surveys'); // routes for books
+let indexRouter = require('../routes/index'); // top level routes
+let surveysRouter = require('../routes/surveys'); // routes for books
+let usersRouter = require('../routes/user');
 
 let app = express();
 
@@ -37,10 +46,37 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../client')));
 app.use(express.static(path.join(__dirname, '../../node_modules')));
 
-// route redirects
-app.use('/', index);
-app.use('/surveys',surveys);
+// setup express session
+app.use(session({
+  secret: "SomeSecret",
+  saveUninitialized: false,
+  resave: false
+}));
 
+// initialize flash
+app.use(flash());
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// passport user configuration
+
+// create a User Model Instance
+let userModel = require('../models/user');
+let User = userModel.User;
+
+// implement a User Authentication Strategy
+passport.use(User.createStrategy());
+
+// serialize and deserialize the User info
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// route redirects
+app.use('/', indexRouter);
+app.use('/surveys',surveysRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
