@@ -1,0 +1,43 @@
+.row{
+    border: 1px solid black;
+    width: 950px;
+}
+.from-group{
+    border-right: 1px solid black;
+}
+
+.title{
+    border-left: 1px solid black;
+}
+.option{
+    border-left: 1px solid black;
+    width: 97.16px;
+    height: 82px;
+}
+.button{
+    text-align: center;
+    padding-top: 25px;
+}
+.titleoption{
+    margin-right: 73px;
+}
+.titlesubmit{
+    margin-right: 18px;
+}
+.titleedit{
+    margin-right: 18px;
+}
+.login{
+    border: 1px solid black;
+    width: 400px;
+    height: 500px;
+    text-align: center;
+    margin: 0 auto;
+}
+.detail{
+    border: 1px solid black;
+    width: 550px;
+    height: 800px;
+    text-align: center;
+    margin: 0 auto;
+}
